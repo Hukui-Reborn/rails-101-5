@@ -11,10 +11,26 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
+  def edit
+    @group = Group.find(params[:id])
+  end
+
   def create
     @group = Group.new(group_params)
-    @group.save
-    redirect_to groups_path
+    if @group.save
+      redirect_to groups_path
+    else
+      render :new
+    end
+  end
+
+  def update
+    @group = Group.find(params[:id])
+    if @group.new(group_params)
+      redirect_to groups_path
+    else
+      render :edit
+    end
   end
 
   private
