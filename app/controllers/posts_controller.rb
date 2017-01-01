@@ -7,7 +7,7 @@ class PostsController < ApplicationController
 
   def create
     @group = Group.find(params[:group_id])
-    @post = Post.new
+    @post = Post.new(post_params)
     @post.group = @group
     @post.user = current_user
     if @post.save
@@ -19,6 +19,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.requie(:post).permit(:content)
+    params.require(:post).permit(:content)
   end
 end
