@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:new, :create]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   def new
     @group = Group.find(params[:group_id])
     @post = Post.new
@@ -26,9 +26,19 @@ class PostsController < ApplicationController
     @group = Group.find(params[:group_id])
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to account_posts_path(@post.user)
+      redirect_to account_posts_path(@post.user), notice: "Update Success!"
     else
       rener :edit
+    end
+  end
+
+  def destroy
+    @group = Group.find(params[:group_id])
+    @post = Post.find(params[:id])
+    if @post.destroy
+      redirect_to account_posts_path(@post.user), alert: "Post Deleted!"
+    else
+      render :edit
     end
   end
 
